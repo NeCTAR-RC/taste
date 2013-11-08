@@ -1,0 +1,46 @@
+* Taste
+
+A simple HTTP stream taster.
+
+** Example
+
+#+BEGIN_EXAMPLE
+
+$ sudo taste port 5000 or port 35357
+['port', '5000', 'or', 'port', '35357']
+# # # # # #
+
+kieran.local:54925 -> keystone.dev:5000
+POST /v2.0/tokens HTTP/1.1
+content-length: 103
+accept-encoding: gzip, deflate, compress
+accept: */*
+user-agent: python-keystoneclient
+host: keystone.dev:5000
+content-type: application/json
+
+{
+  "auth": {
+    "passwordCredentials": {
+      "password": "pass",
+      "username": "demo1"
+    },
+    "tenantName": "personal1"
+  }
+}
+
+keystone.dev:5000 <- kieran.local:54925
+HTTP/1.1 200 OK
+date: Fri, 08 Nov 2013 02:32:51 GMT
+content-type: application/json
+content-length: 87
+vary: X-Auth-Token
+
+{
+  "error": {
+    "code": 401,
+    "message": "Invalid user / password",
+    "title": "Unauthorized"
+  }
+
+#+END_EXAMPLE
