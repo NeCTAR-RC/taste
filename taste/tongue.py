@@ -70,7 +70,7 @@ def lookup_hostnames(addresses):
 def handle_tcp(tcp):
     addresses = list(lookup_hostnames(tcp.addr))
     hosts = "%s -> %s" % tuple("%s:%s" % a for a in addresses)
-    hosts1= "%s <- %s" % tuple(reversed(["%s:%s" % a for a in addresses]))
+    hosts1= "%s -> %s" % tuple(reversed(["%s:%s" % a for a in addresses]))
     print "#",
     if tcp.nids_state == nids.NIDS_JUST_EST:
         # new to us, but do we care?
