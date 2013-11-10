@@ -47,9 +47,12 @@ def pprint_http(data):
         print "%s: %s" % (blue(header), value)
     print ""
     if message.type.lower() == 'application/json':
-        json.dump(json.loads(body),
-                  sys.stdout, sort_keys=True,
-                  indent=2, separators=(',', ': '))
+        try:
+            json.dump(json.loads(body),
+                      sys.stdout, sort_keys=True,
+                      indent=2, separators=(',', ': '))
+        except ValueError:
+            print body
     else:
         print body
 
@@ -71,7 +74,7 @@ def handle_tcp(tcp):
     addresses = list(lookup_hostnames(tcp.addr))
     hosts = "%s -> %s" % tuple("%s:%s" % a for a in addresses)
     hosts1= "%s -> %s" % tuple(reversed(["%s:%s" % a for a in addresses]))
-    print "#",
+    stdout.write("#")
     if tcp.nids_state == nids.NIDS_JUST_EST:
         # new to us, but do we care?
         ((src, sport), (dst, dport)) = tcp.addr
@@ -87,6 +90,7 @@ def handle_tcp(tcp):
             pprint_http(tcp.server.data[:tcp.server.count])
             print green("\n\n%s" % hosts1)
             pprint_http(tcp.client.data[:tcp.client.count])
+            print ""
         else:
             print "BINARY"
 
