@@ -99,6 +99,9 @@ def main():
     args = sys.argv[1:]
     print args
 
+    # Default to listening to all devices
+    nids.param("device", 'any')
+
     nids.param("pcap_filter", ' '.join(args) + ' and tcp')
 
     # disable portscan detection
