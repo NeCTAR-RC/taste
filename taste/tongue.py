@@ -65,7 +65,7 @@ def lookup_hostnames(addresses):
             try:
                 name = socket.gethostbyaddr(ip)[0]
             except:
-                pass
+                name = ip
             HOSTNAMES[ip] = name
             yield HOSTNAMES[ip], port
 
